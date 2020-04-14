@@ -1,0 +1,16 @@
+{
+  "name": "nodejsservice",
+  "version": "1.0.0",
+  "description": "CFC Service",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Manoj",
+  "license": "ISC",
+  "dependencies": {
+    "@cloudant/cloudant": "^4.2.4",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "localtunnel": "^2.0.0"
+  }
+}
