@@ -4,20 +4,18 @@ var router = express.Router();
 
 const PatientController = require('./patient.controller');
 router.post('/covidpatient', function(req, res, next) {
-    
+     PatientController.covidpatient(req, res, next);
 });
 
-router.post('/addpatientsymptom/:patientId', function(req, res, next) {
-   
+router.post('/addsymptom', function(req, res, next) {
+    PatientController.addsymptom(req, res, next);
 });
 
-router.post('/addpatient', function(req, res, next) {
-    PatientController.addpatient(req, res, next);
+router.post('/add', function(req, res, next) {
+   PatientController.add(req, res, next);
 });
-router.post('/addpatientSymptom', function(req, res, next) {
-   
-});
-router.get('/getpatient', PatientController.getpatient);
-router.delete('/:patientId', PatientController.deletePatient);
+
+router.get('/all', PatientController.all);
+router.delete('/:patientId', PatientController.delete);
 
 module.exports = router;

@@ -41,9 +41,11 @@ module.exports = {
     createDocument: function (payloadData, callback) {
         db = cloudant.db.use(dbname);
         var payloadData = {
-            _id: payloadData.id, name: payloadData.name, gender: payloadData.gender,
-            mobileno: payloadData.mobileno, location: payloadData.location, temprature: payloadData.temprature
+            _id: payloadData._id, name: payloadData.name, gender: payloadData.gender,symptom:[],
+            mobileno: payloadData.mobileno, location: payloadData.location, temprature: payloadData.temprature,
+            iscovid:false, healthstatus: "none"
         };
+        console.log(payloadData);
         // we are specifying the id of the document so we can update and delete it later
         db.insert(payloadData, function (err, data) {
             callback(err, data);
@@ -55,22 +57,28 @@ module.exports = {
         console.log("Reading document 'mydoc'");
         db = cloudant.db.use(dbname);
         db.get('b9939f90e4602f08abca4d9d7e08cb78', function (err, data) {
+            doc=data;
             callback(err, data);
         });
     },
 
     // update a document
-    updateDocument: function (callback) {
-        console.log("Updating document 'mydoc'");
+    updateDocument: function (uid, symptom, callback) {
+         db = cloudant.db.use(dbname);
+        console.log("Updating document....");
+        var response=null;
+        var err=null;
         // make a change to the document, using the copy we kept from reading it back
-        doc.c = true;
-        db.insert(doc, function (err, data) {
-            console.log('Error:', err);
-            console.log('Data:', data);
-            // keep the revision of the update so we can delete it
-            doc._rev = data.rev;
-            callback(err, data);
+        db.get(uid, function (err, data) {
+           // err=err;
+            data.symptom.push(symptom);
+            db.insert(data, function (err, data) {
+                // keep the revision of the update so we can delete it
+                response = data.rev;
+               // callback(err, data);
+            });
         });
+  // callback(err, response);
     },
 
     // deleting a document
