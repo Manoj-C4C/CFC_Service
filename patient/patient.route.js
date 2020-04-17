@@ -15,7 +15,7 @@ router.post('/add', function(req, res, next) {
    PatientController.add(req, res, next);
 });
 
-router.get('/all', PatientController.all);
+router.get('/:patientid', PatientController.readPatient);
 router.delete('/:patientId', PatientController.delete);
 
 module.exports = router;

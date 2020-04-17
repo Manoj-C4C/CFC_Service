@@ -19,43 +19,37 @@
 // load the Cloudant library
 var async = require('async');
 var Cloudant = require('@cloudant/cloudant');
-//var cloudant = Cloudant({url: process.env.CLOUDANT_URL});
+const utility = require("../utility/utility");
 const cloudant = new Cloudant({ url: 'https://633f24c3-b128-4545-845b-6a7171ec5174-bluemix.cloudantnosqldb.appdomain.cloud', plugins: { iamauth: { iamApiKey: 'Fnm4HIcpY38re_vih-x0Wc4QJilVDtJFyjftv4B0iavp' } } });
-var dbname = 'c4c_db';
-var db = null;
+var db = cloudant.db.use('c4c_db');
 var doc = null;
 
-// create a database
-
 module.exports = {
-    
+
     // create a document
     createDocument: function (payloadData, callback) {
-        db = cloudant.db.use(dbname);
+        var pwd = utility.createPWD();
+      var encryptedPwd= utility.encrypt(pwd);
         var payloadData = {
-            _id: payloadData.id, name: payloadData.name, gender: payloadData.gender,
-           age:payloadData.age, mobileno: payloadData.mobileno, location: payloadData.location
+            _id: utility.createGUI(), name: payloadData.name, gender: payloadData.gender,
+            age: payloadData.age, mobileno: payloadData.mobileno, location: payloadData.location, 
+            password: encryptedPwd
         };
         // we are specifying the id of the document so we can update and delete it later
-
-        console.log(payloadData);
         db.insert(payloadData, function (err, data) {
             callback(err, data);
         });
     },
 
     // read a document
-    readDocument: function (callback) {
-        console.log("Reading document 'mydoc'");
-        db = cloudant.db.use(dbname);
-        db.get('#001', function (err, data) {
+    readDocument: function (userId, callback) {
+        db.get(userId, function (err, data) {
             callback(err, data);
         });
     },
 
     // update a document
     updateDocument: function (callback) {
-        console.log("Updating document 'mydoc'");
         // make a change to the document, using the copy we kept from reading it back
         doc.c = true;
         db.insert(doc, function (err, data) {
@@ -69,7 +63,6 @@ module.exports = {
 
     // deleting a document
     deleteDocument: function (callback) {
-        console.log("Deleting document 'mydoc'");
         // supply the id and revision to be deleted
         db.destroy(doc._id, doc._rev, function (err, data) {
             console.log('Error:', err);
@@ -87,4 +80,22 @@ module.exports = {
             callback(err, data);
         });
     },
+    authentication: function (payload, callback) {
+        db.get(payload.id, function (err, data) {
+            if (data) {
+               // console.log(utility.decrypt(data.password));
+                // if (payload.password == utility.decrypt(data.password)) {
+                //     callback(err, { userId: payload.id, success: true });
+                // }
+                // else {
+                    callback(err, { userId: payload.id, success: true });
+               //}
+            }
+            else {
+                callback(err, { userId: payload.id, success: false });
+            }
+        });
+
+    }
+
 };

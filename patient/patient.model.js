@@ -19,33 +19,20 @@
 // load the Cloudant library
 var async = require('async');
 var Cloudant = require('@cloudant/cloudant');
+const utility = require("../utility/utility");
 //var cloudant = Cloudant({url: process.env.CLOUDANT_URL});
 const cloudant = new Cloudant({ url: 'https://633f24c3-b128-4545-845b-6a7171ec5174-bluemix.cloudantnosqldb.appdomain.cloud', plugins: { iamauth: { iamApiKey: 'Fnm4HIcpY38re_vih-x0Wc4QJilVDtJFyjftv4B0iavp' } } });
-var dbname = 'c4c_db';
-var db = null;
+var db = cloudant.db.use('c4c_db');;
 var doc = null;
 
-// create a database
-
 module.exports = {
-    createDatabase: function (callback) {
-        console.log("Creating database '" + dbname + "'");
-        cloudant.db.create(dbname, function (err, data) {
-            console.log('Error:', err);
-            db = cloudant.db.use(dbname);
-            callback(err, data);
-        });
-    },
-
     // create a document
     createDocument: function (payloadData, callback) {
-        db = cloudant.db.use(dbname);
         var payloadData = {
-            _id: payloadData._id, name: payloadData.name, gender: payloadData.gender,symptom:[],
+            _id: utility.createGUI(), name: payloadData.name, gender: payloadData.gender,symptom:[],
             mobileno: payloadData.mobileno, location: payloadData.location, temprature: payloadData.temprature,
             iscovid:false, healthstatus: "none"
         };
-        console.log(payloadData);
         // we are specifying the id of the document so we can update and delete it later
         db.insert(payloadData, function (err, data) {
             callback(err, data);
@@ -53,10 +40,8 @@ module.exports = {
     },
 
     // read a document
-    readDocument: function (callback) {
-        console.log("Reading document 'mydoc'");
-        db = cloudant.db.use(dbname);
-        db.get('b9939f90e4602f08abca4d9d7e08cb78', function (err, data) {
+    readDocument: function (id, callback) {
+        db.get(id, function (err, data) {
             doc=data;
             callback(err, data);
         });
@@ -64,8 +49,6 @@ module.exports = {
 
     // update a document
     updateDocument: function (uid, symptom, callback) {
-         db = cloudant.db.use(dbname);
-        console.log("Updating document....");
         var response=null;
         var err=null;
         // make a change to the document, using the copy we kept from reading it back
@@ -96,8 +79,6 @@ module.exports = {
     deleteDatabase: function (callback) {
         console.log("Deleting database '" + dbname + "'");
         cloudant.db.destroy(dbname, function (err, data) {
-            console.log('Error:', err);
-            console.log('Data:', data);
             callback(err, data);
         });
     },

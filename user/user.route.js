@@ -5,10 +5,12 @@ var router = express.Router();
 const userController = require('./user.controller');
 
 router.post('/signup', function(req, res, next) {
-    console.log('requset ...');
     userController.addUser(req, res, next);
 });
-router.get('/getusers', userController.getUsers);
+router.post('/signin', function(req, res, next) {
+    userController.signin(req, res, next);
+});
+router.get('/:userid', userController.getUser);
 router.delete('/:userId', userController.deleteUser);
 
 module.exports = router;

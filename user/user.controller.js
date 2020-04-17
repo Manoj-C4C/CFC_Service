@@ -1,5 +1,6 @@
 const user = require("./user.model");
-const cloudant = require('@cloudant/cloudant');
+const querystring = require('querystring');
+
 module.exports = {
     deleteUser: (request, response) => {
     },
@@ -14,10 +15,19 @@ module.exports = {
         });
     },
 
-    getUsers: (request, response, next) => {
-        user.readDocument(function (err, data) {
+    getUser: (request, response, next) => {
+      var userId=  request.params.userid;
+        user.readDocument(userId,function (err, data) {
             response.send(data);
         });
+    },
+    signin:(request, response, next)=>{
+        var payloadData = {
+            id: request.body.id, password: request.body.password
+        }
+        user.authentication(payloadData, function (err, data) {
+            response.send(data);
+        }); 
     }
 
 };
