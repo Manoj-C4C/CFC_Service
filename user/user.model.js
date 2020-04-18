@@ -29,15 +29,29 @@ module.exports = {
     // create a document
     createDocument: function (payloadData, callback) {
         var pwd = utility.createPWD();
-      var encryptedPwd= utility.encrypt(pwd);
+        var encryptedPwd = utility.encrypt(pwd);
+        var operatorData = { "id": "", "timestamp": "" };
+        var qurantineData = { "isQurantine": false, "started": 0, "end": 0 };
         var payloadData = {
             _id: utility.createGUI(), name: payloadData.name, gender: payloadData.gender,
-            age: payloadData.age, mobileno: payloadData.mobileno, location: payloadData.location, 
-            password: encryptedPwd
+            age: payloadData.age, mobileno: payloadData.mobileno, location: payloadData.location,
+            password: encryptedPwd, symptom: [], iscovid: false, healthstatus: "none", doctorscreening: [],
+            timestamp: Date.now(), doctorId: "", assignedByOperator: operatorData, usertype: "individual",
+            qurantine: qurantineData
         };
         // we are specifying the id of the document so we can update and delete it later
         db.insert(payloadData, function (err, data) {
-            callback(err, data);
+            var response = {};
+            if (data) {
+                response["success"] = true;
+                response["id"] = data.id;
+                response["password"] = pwd;
+
+            }
+            else {
+                response["success"] = false;
+            }
+            callback(err, response);
         });
     },
 
@@ -61,41 +75,23 @@ module.exports = {
         });
     },
 
-    // deleting a document
-    deleteDocument: function (callback) {
-        // supply the id and revision to be deleted
-        db.destroy(doc._id, doc._rev, function (err, data) {
-            console.log('Error:', err);
-            console.log('Data:', data);
-            callback(err, data);
-        });
-    },
-
-    // deleting the database document
-    deleteDatabase: function (callback) {
-        console.log("Deleting database '" + dbname + "'");
-        cloudant.db.destroy(dbname, function (err, data) {
-            console.log('Error:', err);
-            console.log('Data:', data);
-            callback(err, data);
-        });
-    },
     authentication: function (payload, callback) {
         db.get(payload.id, function (err, data) {
             if (data) {
-               // console.log(utility.decrypt(data.password));
+                // console.log(utility.decrypt(data.password));
                 // if (payload.password == utility.decrypt(data.password)) {
                 //     callback(err, { userId: payload.id, success: true });
                 // }
                 // else {
-                    callback(err, { userId: payload.id, success: true });
-               //}
+                callback(err, { userId: payload.id, success: true });
+                //}
             }
             else {
                 callback(err, { userId: payload.id, success: false });
             }
         });
 
-    }
+    },
+
 
 };

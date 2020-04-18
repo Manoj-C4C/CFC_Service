@@ -20,6 +20,7 @@
 var async = require('async');
 var Cloudant = require('@cloudant/cloudant');
 const utility = require("../utility/utility");
+const query = require("../db_query/query");
 //var cloudant = Cloudant({url: process.env.CLOUDANT_URL});
 const cloudant = new Cloudant({ url: 'https://633f24c3-b128-4545-845b-6a7171ec5174-bluemix.cloudantnosqldb.appdomain.cloud', plugins: { iamauth: { iamApiKey: 'Fnm4HIcpY38re_vih-x0Wc4QJilVDtJFyjftv4B0iavp' } } });
 var db = cloudant.db.use('c4c_db');;
@@ -29,9 +30,9 @@ module.exports = {
     // create a document
     createDocument: function (payloadData, callback) {
         var payloadData = {
-            _id: utility.createGUI(), name: payloadData.name, gender: payloadData.gender,symptom:[],
+            _id: utility.createGUI(), name: payloadData.name, gender: payloadData.gender, symptom: [],
             mobileno: payloadData.mobileno, location: payloadData.location, temprature: payloadData.temprature,
-            iscovid:false, healthstatus: "none"
+            iscovid: false, healthstatus: "none", doctorscreen: [], timestamp: Date.now(), doctorId: "", assignedByOperationId: ""
         };
         // we are specifying the id of the document so we can update and delete it later
         db.insert(payloadData, function (err, data) {
@@ -42,26 +43,36 @@ module.exports = {
     // read a document
     readDocument: function (id, callback) {
         db.get(id, function (err, data) {
-            doc=data;
+            doc = data;
             callback(err, data);
         });
     },
 
     // update a document
     updateDocument: function (uid, symptom, callback) {
-        var response=null;
-        var err=null;
+        var response = { success: false };
+        var err = null;
         // make a change to the document, using the copy we kept from reading it back
         db.get(uid, function (err, data) {
-           // err=err;
-            data.symptom.push(symptom);
-            db.insert(data, function (err, data) {
-                // keep the revision of the update so we can delete it
-                response = data.rev;
-               // callback(err, data);
-            });
+            if (data) {
+                symptom.temperature = utility.convertStatustoTemperature(symptom.temperature);
+                data.symptom.push(symptom);
+                db.insert(data, function (err, data) {
+                    if (data) {
+                        response["success"] = true;
+                        callback(err, response);
+                    }
+                    else {
+                        response["success"] = false;
+                        callback(err, response);
+                    }
+                });
+            }
+            else {
+                callback(err, response);
+            }
+
         });
-  // callback(err, response);
     },
 
     // deleting a document
@@ -82,4 +93,22 @@ module.exports = {
             callback(err, data);
         });
     },
+    selectQuery: function () {
+        db.find(query.searchQuery()).then((result) => {
+            console.log(result.docs);
+        });;
+    },
+    findsymptom: function (id,callback) {
+        db.find(query.getSymptom(id)).then((result) => {
+            if(result.docs.length > 0 && result.docs[0].symptom.length>0)
+            {
+               callback(true);
+            }
+            else{
+                callback(false);
+            }
+        }).catch(err=>{
+         callback(err);
+    });;
+    }
 };

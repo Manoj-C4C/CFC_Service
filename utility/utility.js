@@ -31,5 +31,21 @@ module.exports = {
         let decrypted = decipher.update(encryptedText);
         decrypted = Buffer.concat([decrypted, decipher.final()]);
         return decrypted.toString();
+    },
+
+    convertStatustoTemperature: (temperature) => {
+        switch (temperature) {
+            case "normal":
+                return 97;
+                break;
+            case "fever":
+                return 100;
+                break;
+            case "highfever":
+                return 105;
+                break;
+            default:
+                return 97;
+        }
     }
 }

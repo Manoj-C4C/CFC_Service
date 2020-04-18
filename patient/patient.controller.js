@@ -4,11 +4,11 @@ var uuid = require('uuid-random');
 
 module.exports = {
     delete: (request, response) => {
-    },
 
+    },
     add: (request, response) => {
         var payloadData = {
-          name: request.body.name, gender: request.body.gender,symptom:[],
+            name: request.body.name, gender: request.body.gender, symptom: [], timestamp: Date.now(),
             mobileno: request.body.mobileno, location: request.body.location, temprature: request.body.temprature
         }
         patient.createDocument(payloadData, function (err, data) {
@@ -29,16 +29,30 @@ module.exports = {
         // });
     },
     addsymptom: (request, response, next) => {
-      var user_id= request.body.user_id;
+        var user_id = request.body.user_id;
+        var res = { success: true };
         var payloadData = {
             age: request.body.age, family: request.body.family,
             gender: request.body.gender, travelled: request.body.travelled,
-            experience: request.body.experience, temperature: request.body.temperature
+            experience: request.body.experience, temperature: request.body.temperature, timestamp: Date.now()
         };
         patient.updateDocument(user_id, payloadData, function (err, data) {
-            response.send({ sucess: true });
+            res = data;
+            response.send(res);
         });
-        response.send({ sucess: true });
     },
 
+    findUser: (request, response) => {
+        console.log("controller calling");
+        patient.selectQuery();
+        response.send({ "success": true });
+    },
+    findsymptom: (request, response) => {
+        var userId = request.body.id;
+        var result = patient.findsymptom(userId, function (result) {
+            response.send({ "success": result });
+        });
+
+
+    }
 };
