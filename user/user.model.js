@@ -30,14 +30,14 @@ module.exports = {
     createDocument: function (payloadData, callback) {
         var pwd = utility.createPWD();
         var encryptedPwd = utility.encrypt(pwd);
-        var operatorData = { "id": "", "timestamp": "" };
         var qurantineData = { "isQurantine": false, "started": 0, "end": 0 };
         var payloadData = {
             _id: utility.createGUI(), name: payloadData.name, gender: payloadData.gender,
-            age: payloadData.age, mobileno: payloadData.mobileno, location: payloadData.location,
+            age: payloadData.age, mobileno: payloadData.mobileno, location: payloadData.location, currentAssign : "none",
+            morbidity: "none", isTestPerformed: true,
             password: encryptedPwd, symptom: [], iscovid: false, healthstatus: "none", doctorscreening: [],
-            timestamp: Date.now(), doctorId: "", assignedByOperator: operatorData, usertype: "individual",
-            qurantine: qurantineData
+            timestamp: Date.now(), doctorId: "", assignedByOperator: {}, assignedByDoctor: {}, usertype: "individual",
+            qurantine: qurantineData, currentCovidScore: ""
         };
         // we are specifying the id of the document so we can update and delete it later
         db.insert(payloadData, function (err, data) {

@@ -29,15 +29,8 @@ module.exports = {
         // });
     },
     addsymptom: (request, response, next) => {
-        var user_id = request.body.user_id;
-        var res = { success: true };
-        var payloadData = {
-            age: request.body.age, family: request.body.family,
-            gender: request.body.gender, travelled: request.body.travelled,
-            experience: request.body.experience, temperature: request.body.temperature, timestamp: Date.now()
-        };
-        patient.updateDocument(user_id, payloadData, function (err, data) {
-            res = data;
+     var payload = request.body;
+        patient.updateDocument(payload, function (err, data) {
             response.send(res);
         });
     },

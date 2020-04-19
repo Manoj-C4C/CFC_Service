@@ -49,21 +49,23 @@ module.exports = {
     },
 
     // update a document
-    updateDocument: function (uid, symptom, callback) {
+    updateDocument: function (payload, callback) {
         var response = { success: false };
         var err = null;
+        var uid=payload.user_id;
+        payload.temperature = utility.convertStatustoTemperature(payload.temperature);
+        payload["timestamp"]=Date.now();
+        delete payload["user_id"];
         // make a change to the document, using the copy we kept from reading it back
         db.get(uid, function (err, data) {
             if (data) {
-                symptom.temperature = utility.convertStatustoTemperature(symptom.temperature);
-                data.symptom.push(symptom);
+                data.symptom.push(payload);
                 db.insert(data, function (err, data) {
                     if (data) {
                         response["success"] = true;
                         callback(err, response);
                     }
                     else {
-                        response["success"] = false;
                         callback(err, response);
                     }
                 });
