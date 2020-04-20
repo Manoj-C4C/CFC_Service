@@ -31,7 +31,7 @@ module.exports = {
     addsymptom: (request, response, next) => {
      var payload = request.body;
         patient.updateDocument(payload, function (err, data) {
-            response.send(res);
+            response.send(data);
         });
     },
 

@@ -38,8 +38,11 @@ module.exports = {
             case "normal":
                 return 97;
                 break;
-            case "fever":
+            case "medium":
                 return 100;
+                break;
+            case "fever":
+                return 102;
                 break;
             case "highfever":
                 return 105;
