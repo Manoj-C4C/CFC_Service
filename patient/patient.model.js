@@ -52,8 +52,8 @@ module.exports = {
     updateDocument: function (payload, callback) {
         var response = { success: false };
         var err = null;
-        var uid=payload.user_id;
-        payload.temperature = utility.convertStatustoTemperature(payload.temperature);
+        var uid = payload.user_id;
+       // payload.temperature = utility.convertStatustoTemperature(payload.temperature);
         payload["timestamp"]=Date.now();
         delete payload["user_id"];
         // make a change to the document, using the copy we kept from reading it back
