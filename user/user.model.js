@@ -46,7 +46,7 @@ module.exports = {
             if (data) {
                 response["success"] = true;
                 response["userId"] = data.id;
-                 response["mobileNo"] = payloadData.mobileno;
+                response["mobileNo"] = payloadData.mobileno;
                 response["password"] = pwd;
 
             }
@@ -59,19 +59,19 @@ module.exports = {
 
     // read a document
     readDocument: function (userId, callback) {
-        if(userId != undefined && userId != null){
-        db.get(userId, function (err, data) {
-            if(data !== undefined){
-            data["userId"] = data._id.toString();
-            delete data._id;
-            delete data.password;
-            delete data._rev;
-            callback(err, data);
-        }
-        else{
-          callback(err, {msg:"no records found !!! "});  
-        }
-        });
+        if (userId != undefined && userId != null) {
+            db.get(userId, function (err, data) {
+                if (data !== undefined) {
+                    data["userId"] = data._id.toString();
+                    delete data._id;
+                    delete data.password;
+                    delete data._rev;
+                    callback(err, data);
+                }
+                else {
+                    callback(err, { msg: "no records found !!! " });
+                }
+            });
         }
     },
 
@@ -96,12 +96,14 @@ module.exports = {
                 //     callback(err, { userId: payload.id, success: true });
                 // }
                 // else {
-                callback("", { userId: result.docs[0]._id,mobileNo:result.docs[0].mobileno, success: true });
+                callback("", { userId: result.docs[0]._id, mobileNo: result.docs[0].mobileno, success: true });
                 //}
             }
             else {
                 callback(err, { userId: payload.id, success: false });
             }
+        }).catch(err => {
+            callback(err, { userId: payload.id, success: false });
         });
 
     },
