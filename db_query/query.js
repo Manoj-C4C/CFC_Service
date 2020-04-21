@@ -41,7 +41,8 @@ module.exports = {
             "fields": [
                 "_id",
                 "name",
-                "mobileno"
+                "mobileno",
+                "symptom"
             ]
         };
     }

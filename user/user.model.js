@@ -96,7 +96,8 @@ module.exports = {
                 //     callback(err, { userId: payload.id, success: true });
                 // }
                 // else {
-                callback("", { userId: result.docs[0]._id, mobileNo: result.docs[0].mobileno, success: true });
+                console.log(result.docs[0]);
+                callback("", { userId: result.docs[0]._id, mobileNo: result.docs[0].mobileno, success: true, symptomDataLen: result.docs[0].symptom.length });
                 //}
             }
             else {
