@@ -29,10 +29,22 @@ module.exports = {
         // });
     },
     addsymptom: (request, response, next) => {
-     var payload = request.body;
-        patient.updateDocument(payload, function (err, data) {
-            response.send(data);
-        });
+        var payload = request.body;
+        console.log(JSON.stringify(request.body));
+        if (payload["isverified"] == undefined) {
+            patient.updateDocument(payload, function (err, data) {
+                response.send(data);
+            });
+        }
+        else {
+            var id = request.body.user_id.toString();
+            console.log(JSON.stringify(request.body));
+            patient.getUserName(id, function (err, data) {
+                {
+                    response.send(data);
+                }
+            });
+        }
     },
 
     findUser: (request, response) => {

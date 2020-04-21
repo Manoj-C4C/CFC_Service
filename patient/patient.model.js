@@ -53,8 +53,8 @@ module.exports = {
         var response = { success: false };
         var err = null;
         var uid = payload.user_id;
-       // payload.temperature = utility.convertStatustoTemperature(payload.temperature);
-        payload["timestamp"]=Date.now();
+        // payload.temperature = utility.convertStatustoTemperature(payload.temperature);
+        payload["timestamp"] = Date.now();
         delete payload["user_id"];
         // make a change to the document, using the copy we kept from reading it back
         db.get(uid, function (err, data) {
@@ -100,17 +100,28 @@ module.exports = {
             console.log(result.docs);
         });;
     },
-    findsymptom: function (id,callback) {
+    findsymptom: function (id, callback) {
         db.find(query.getSymptom(id)).then((result) => {
-            if(result.docs.length > 0 && result.docs[0].symptom.length>0)
-            {
-               callback(true);
+            if (result.docs.length > 0 && result.docs[0].symptom.length > 0) {
+                callback(true);
             }
-            else{
+            else {
                 callback(false);
             }
-        }).catch(err=>{
-         callback(err);
-    });;
+        }).catch(err => {
+            callback(err);
+        });
+    },
+    getUserName: (id, callback) => {
+        db.find(query.getUserName(id)).then((result) => {
+            if (result.docs.length > 0) {
+                callback("",{ "sucess": "true", userName: result.docs[0].name, userId: result.docs[0]._id });
+            }
+            else {
+                callback("",{ "sucess": "false"});
+            }
+        }).catch(err => {
+            callback(err,{ "sucess": "false"});
+        });
     }
 };

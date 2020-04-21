@@ -21,5 +21,28 @@ module.exports = {
                 "symptom"
             ]
         };
+    },
+     getUserName: function (id) {
+        return {
+            "selector": {
+                "_id": id
+            },
+            "fields": [
+                "_id",
+                "name"
+            ]
+        };
+    },
+     getSignIn: function (mobileno) {
+        return {
+            "selector": {
+               "mobileno": mobileno
+            },
+            "fields": [
+                "_id",
+                "name",
+                "mobileno"
+            ]
+        };
     }
 }
