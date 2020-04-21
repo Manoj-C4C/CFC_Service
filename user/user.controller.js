@@ -18,8 +18,8 @@ module.exports = {
     getUser: (request, response, next) => {
       var userId=  request.params.userid;
         user.readDocument(userId,function (err, data) {
-            if(data) response.send({"success":true, "result":data});
-            else  response.send({"success":false, "error":err});
+            if(data) response.send(data);
+            else  response.send(err);
         });
     },
     signin:(request, response, next)=>{

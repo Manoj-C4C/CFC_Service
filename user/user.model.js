@@ -44,7 +44,7 @@ module.exports = {
             var response = {};
             if (data) {
                 response["success"] = true;
-                response["id"] = data.id;
+                response["userId"] = data.id;
                 response["password"] = pwd;
 
             }
@@ -58,6 +58,10 @@ module.exports = {
     // read a document
     readDocument: function (userId, callback) {
         db.get(userId, function (err, data) {
+            data["userId"]=data._id;
+            delete data._id;
+            delete data.password;
+            delete data._rev;
             callback(err, data);
         });
     },
