@@ -35,8 +35,9 @@ ibmcloud cr image-list
 # Go to Clusters on IBM Cloud -> click the cluster -> 'Add-ons' -> click 'Install' for 'Kubernetes Terminal'
 # This will start installation and when button label change to 'Terminal', click on it to open terminal'
 
-# Delete if deployment already exists
+# Delete the respective deployment & service if already exists
 kubectl delete deployment cfcaltran2020
+kubectl delete service cfcaltran2020-service
 
 # Start
 kubectl run cfcaltran2020 --image=us.icr.io/cfc_altran/cfc-nodejs-repo:latest
