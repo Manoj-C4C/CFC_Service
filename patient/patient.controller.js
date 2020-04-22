@@ -30,7 +30,6 @@ module.exports = {
     },
     addsymptom: (request, response, next) => {
         var payload = request.body;
-        console.log(JSON.stringify(request.body));
         if (payload["isverified"] == undefined) {
             patient.updateDocument(payload, function (err, data) {
                 response.send(data);

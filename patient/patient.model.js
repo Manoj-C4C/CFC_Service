@@ -20,6 +20,7 @@
 var async = require('async');
 var Cloudant = require('@cloudant/cloudant');
 const utility = require("../utility/utility");
+const weightageService = require("../service/service");
 const query = require("../db_query/query");
 //var cloudant = Cloudant({url: process.env.CLOUDANT_URL});
 const cloudant = new Cloudant({ url: 'https://633f24c3-b128-4545-845b-6a7171ec5174-bluemix.cloudantnosqldb.appdomain.cloud', plugins: { iamauth: { iamApiKey: 'Fnm4HIcpY38re_vih-x0Wc4QJilVDtJFyjftv4B0iavp' } } });
@@ -49,7 +50,7 @@ module.exports = {
     },
 
     // update a document
-    updateDocument: function (payload, callback) {
+    updateDocument: (payload, callback) => {
         var response = { success: false };
         var err = null;
         var uid = payload.user_id;
@@ -57,9 +58,14 @@ module.exports = {
         payload["timestamp"] = Date.now();
         delete payload["user_id"];
         // make a change to the document, using the copy we kept from reading it back
-        db.get(uid, function (err, data) {
+        db.get(uid, async (err, data) =>{
             if (data) {
                 data.symptom.push(payload);
+                var updatedField = await weightageService.updatePatientScore(null, data);
+                    if (updatedField != null) {
+                        data.healthstatus = updatedField.healthstatus;
+                        data.currentCovidScore = updatedField.currentCovidScore;
+                    }
                 db.insert(data, function (err, data) {
                     if (data) {
                         response["success"] = true;

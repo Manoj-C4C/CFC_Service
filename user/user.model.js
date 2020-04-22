@@ -20,6 +20,7 @@
 var async = require('async');
 var Cloudant = require('@cloudant/cloudant');
 const query = require("../db_query/query");
+const weightageService = require("../service/service");
 const utility = require("../utility/utility");
 const cloudant = new Cloudant({ url: 'https://633f24c3-b128-4545-845b-6a7171ec5174-bluemix.cloudantnosqldb.appdomain.cloud', plugins: { iamauth: { iamApiKey: 'Fnm4HIcpY38re_vih-x0Wc4QJilVDtJFyjftv4B0iavp' } } });
 var db = cloudant.db.use('c4c_db');
@@ -58,14 +59,20 @@ module.exports = {
     },
 
     // read a document
-    readDocument: function (userId, callback) {
+    readDocument: (userId, callback)=> {
         if (userId != undefined && userId != null) {
-            db.get(userId, function (err, data) {
+            db.get(userId, async function (err, data) {
                 if (data !== undefined) {
                     data["userId"] = data._id.toString();
                     delete data._id;
                     delete data.password;
                     delete data._rev;
+                   // var updatedField = await weightageService.updatePatientScore(null, data);
+                    // console.log(updatedField);
+                    // if (updatedField != null) {
+                    //     data.healthstatus = updatedField.healthstatus;
+                    //     data.currentCovidScore = updatedField.currentCovidScore;
+                    // }
                     callback(err, data);
                 }
                 else {
