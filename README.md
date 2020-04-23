@@ -57,8 +57,8 @@ To get started take clone of following repository to your local machine.
 
 - https://github.com/hackaltran/CFC_API
 - https://github.com/hackaltran/CFC_UI
-- https://github.com/hackaltran/CFC_Monitor
-- https://github.com/hackaltran/CFC_MonitorUI
+- https://github.com/hackaltran/CFC_Monitoring
+- https://github.com/hackaltran/CFC_MonitoringUI
 
 ### Prerequisites
 
