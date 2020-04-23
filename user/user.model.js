@@ -103,7 +103,7 @@ module.exports = {
                 //     callback(err, { userId: payload.id, success: true });
                 // }
                 // else {
-                console.log("Response for authentication =>"+result.docs[0]);
+                console.log("Response for authentication =>"+JSON.stringify(result.docs[0]));
                 callback("", { userId: result.docs[0]._id, mobileNo: result.docs[0].mobileno, success: true, symptomDataLen: result.docs[0].symptom.length });
                 //}
             }

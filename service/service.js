@@ -63,10 +63,16 @@ var SERVICE = {
 
         // Calculating status based on score
         updatedFields.healthstatus = score < 30 ? 'none'
-                                    : ((score >= 30 && score < 55) ? 'possible'
+                                    : ((score >= 30 && score < 75) ? 'possible'
                                     : 'positive');
 
         updatedFields.currentCovidScore = score;
+        if (updatedFields.healthstatus != "none") {
+            upadtedFields.qurantine = { isQurantine: true, started: Date.now(), end: Date.now() + 1.21e+9 }
+        }
+        else {
+            upadtedFields.qurantine = { isQurantine: false, started: 0, end: 0 }
+        }
 
         // console.log(patient.id, JSON.stringify(weightage));
         return updatedFields;
