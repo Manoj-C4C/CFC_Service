@@ -51,38 +51,35 @@ TBD
 
 ## Getting started
 
-TDOD - Manoj to Add
+To get started take clone of following repository to your local machine.
+
+- https://github.com/hackaltran/CFC_API
+- https://github.com/hackaltran/CFC_UI
+- https://github.com/hackaltran/CFC_Monitor
+- https://github.com/hackaltran/CFC_MonitorUI
 
 ### Prerequisites
 
-TDOD - Manoj to Add
-
+Before installing the application, you ensure following tools should be installed in your machine.
 ```bash
-dnf install wget
-wget http://www.example.com/install.sh
-bash install.sh
+node v10 or above
 ```
 
 ### Installing
 
-TDOD - Manoj to Add
-
+- open the command prompt and go to CFC_API folder
+- run following command to install all depedency 
 ```bash
-export TOKEN="fffd0923aa667c617a62f5A_fake_token754a2ad06cc9903543f1e85"
-export EMAIL="jane@example.com"
-dnf install npm
-node samplefile.js
-Server running at http://127.0.0.1:3000/
+  npm install
 ```
 
-And repeat
-
+- run following command to start application 
 ```bash
-curl localhost:3000
-Thanks for looking at Code-and-Response!
+  npm start
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+Repeat above step for other three repository
+
 
 ## Running the tests
 
