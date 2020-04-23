@@ -113,7 +113,9 @@ TBD
 
 ## Built with
 
-TBD
+NodeJS
+ReactJS
+React-Native
 
 ## Contributing
 
@@ -123,7 +125,8 @@ TBD
 
 ## Authors
 
-TBD
+Deepak Bammi
+Manoj Gupta
 
 ## License
 
