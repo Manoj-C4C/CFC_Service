@@ -21,13 +21,15 @@ Health Assistant - Details about submission name - TBD
 
 ## Short description
 
+TBD
+
 ### What's the problem?
 
-TBD
+In these unprecedented times, health care systems are getting overwhelmed with patients having Covid-19 symptoms all over the world. It is becoming very difficult for doctors to handle every patient with these symptoms. 
 
 ### How can technology help?
 
-TBD
+We are trying to bring technology to the rescue of health care systems all over the world so that they are able to cope up with the massive inflow of patients with Covid-19 symptoms. 
 
 ### The idea
 
