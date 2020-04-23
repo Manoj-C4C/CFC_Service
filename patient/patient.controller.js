@@ -24,12 +24,13 @@ module.exports = {
     },
     covidpatient: (request, response, next) => {
         // patient.readDocument(function (err, data) {
-        console.log(JSON.stringify(request.body))
-        response.send(JSON.stringify(request.body));
+       // console.log(JSON.stringify(request.body))
+        //response.send(JSON.stringify(request.body));
         // });
     },
     addsymptom: (request, response, next) => {
         var payload = request.body;
+        console.log("RequestData for Add Symptom => "+JSON.stringify(request.body));
         if (payload["isverified"] == undefined) {
             patient.updateDocument(payload, function (err, data) {
                 response.send(data);
@@ -37,7 +38,7 @@ module.exports = {
         }
         else {
             var id = request.body.user_id.toString();
-            console.log(JSON.stringify(request.body));
+           // console.log(JSON.stringify(request.body));
             patient.getUserName(id, function (err, data) {
                 {
                     response.send(data);
@@ -47,7 +48,7 @@ module.exports = {
     },
 
     findUser: (request, response) => {
-        console.log("controller calling");
+       // console.log("controller calling");
         patient.selectQuery();
         response.send({ "success": true });
     },

@@ -87,8 +87,8 @@ module.exports = {
         // make a change to the document, using the copy we kept from reading it back
         doc.c = true;
         db.insert(doc, function (err, data) {
-            console.log('Error:', err);
-            console.log('Data:', data);
+           // console.log('Error:', err);
+            //console.log('Data:', data);
             // keep the revision of the update so we can delete it
             doc._rev = data.rev;
             callback(err, data);
@@ -103,7 +103,7 @@ module.exports = {
                 //     callback(err, { userId: payload.id, success: true });
                 // }
                 // else {
-                console.log(result.docs[0]);
+                console.log("Response for authentication =>"+result.docs[0]);
                 callback("", { userId: result.docs[0]._id, mobileNo: result.docs[0].mobileno, success: true, symptomDataLen: result.docs[0].symptom.length });
                 //}
             }

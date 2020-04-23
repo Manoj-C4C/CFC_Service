@@ -62,8 +62,8 @@ var SERVICE = {
                     + weightage.breathingWeightage;
 
         // Calculating status based on score
-        updatedFields.healthstatus = score < 20 ? 'none'
-                                    : ((score >= 20 && score < 55) ? 'possible'
+        updatedFields.healthstatus = score < 30 ? 'none'
+                                    : ((score >= 30 && score < 55) ? 'possible'
                                     : 'positive');
 
         updatedFields.currentCovidScore = score;

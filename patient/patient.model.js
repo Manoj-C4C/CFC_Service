@@ -53,12 +53,13 @@ module.exports = {
     updateDocument: (payload, callback) => {
         var response = { success: false };
         var err = null;
-        var uid = payload.user_id;
+        var mobno = payload.user_id.toString();
         // payload.temperature = utility.convertStatustoTemperature(payload.temperature);
         payload["timestamp"] = Date.now();
         delete payload["user_id"];
         // make a change to the document, using the copy we kept from reading it back
-        db.get(uid, async (err, data) =>{
+        db.find(query.getuserData(mobno)).then(async (respData) => {// db.get(uid, async (err, data) =>{
+            var data=respData.docs[0];
             if (data) {
                 data.symptom.push(payload);
                 var updatedField = await weightageService.updatePatientScore(null, data);
@@ -85,25 +86,24 @@ module.exports = {
 
     // deleting a document
     deleteDocument: function (callback) {
-        console.log("Deleting document 'mydoc'");
         // supply the id and revision to be deleted
         db.destroy(doc._id, doc._rev, function (err, data) {
-            console.log('Error:', err);
-            console.log('Data:', data);
+         //   console.log('Error:', err);
+           // console.log('Data:', data);
             callback(err, data);
         });
     },
 
     // deleting the database document
     deleteDatabase: function (callback) {
-        console.log("Deleting database '" + dbname + "'");
+       // console.log("Deleting database '" + dbname + "'");
         cloudant.db.destroy(dbname, function (err, data) {
             callback(err, data);
         });
     },
     selectQuery: function () {
         db.find(query.searchQuery()).then((result) => {
-            console.log(result.docs);
+            //console.log(result.docs);
         });;
     },
     findsymptom: function (id, callback) {
@@ -119,7 +119,8 @@ module.exports = {
         });
     },
     getUserName: (id, callback) => {
-        db.find(query.getUserName(id)).then((result) => {
+        db.find(query.getSignIn(id)).then((result) => {
+            console.log("Response for get User Name function =>"+ JSON.stringify(result));
             if (result.docs.length > 0) {
                 callback("",{ "sucess": "true", userName: result.docs[0].name, userId: result.docs[0]._id });
             }

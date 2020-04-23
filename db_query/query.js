@@ -40,10 +40,18 @@ module.exports = {
             },
             "fields": [
                 "_id",
+                "_rev",
                 "name",
                 "mobileno",
                 "symptom"
             ]
+        }
+     },
+         getuserData: function (mobileno) {
+        return {
+            "selector": {
+               "mobileno": mobileno
+            }
         };
     }
 }
