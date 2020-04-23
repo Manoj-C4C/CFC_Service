@@ -62,17 +62,18 @@ var SERVICE = {
                     + weightage.breathingWeightage;
 
         // Calculating status based on score
-        updatedFields.healthstatus = score < 30 ? 'none'
-                                    : ((score >= 30 && score < 75) ? 'possible'
+        updatedFields.healthstatus = score < 25 ? 'none'
+                                    : ((score >= 25 && score < 75) ? 'possible'
                                     : 'positive');
 
         updatedFields.currentCovidScore = score;
-        if (updatedFields.healthstatus != "none") {
-            upadtedFields.qurantine = { isQurantine: true, started: Date.now(), end: Date.now() + 1.21e+9 }
+       // console.log(updatedFields.healthstatus);
+        if (updatedFields.healthstatus != 'none') {
+            updatedFields.qurantine = { isQurantine: true, started: Date.now(), end: Date.now() + 1.21e+9 }
         }
-        else {
-            upadtedFields.qurantine = { isQurantine: false, started: 0, end: 0 }
-        }
+        // else {
+        //     updatedFields.qurantine = { isQurantine: false, started: 0, end: 0 }
+        // }
 
         // console.log(patient.id, JSON.stringify(weightage));
         return updatedFields;
