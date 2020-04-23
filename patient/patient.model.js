@@ -20,6 +20,7 @@
 var async = require('async');
 var Cloudant = require('@cloudant/cloudant');
 const utility = require("../utility/utility");
+const weightageService = require("../service/service");
 const query = require("../db_query/query");
 //var cloudant = Cloudant({url: process.env.CLOUDANT_URL});
 const cloudant = new Cloudant({ url: 'https://633f24c3-b128-4545-845b-6a7171ec5174-bluemix.cloudantnosqldb.appdomain.cloud', plugins: { iamauth: { iamApiKey: 'Fnm4HIcpY38re_vih-x0Wc4QJilVDtJFyjftv4B0iavp' } } });
@@ -49,17 +50,23 @@ module.exports = {
     },
 
     // update a document
-    updateDocument: function (payload, callback) {
+    updateDocument: (payload, callback) => {
         var response = { success: false };
         var err = null;
-        var uid = payload.user_id;
-       // payload.temperature = utility.convertStatustoTemperature(payload.temperature);
-        payload["timestamp"]=Date.now();
+        var mobno = payload.user_id.toString();
+        // payload.temperature = utility.convertStatustoTemperature(payload.temperature);
+        payload["timestamp"] = Date.now();
         delete payload["user_id"];
         // make a change to the document, using the copy we kept from reading it back
-        db.get(uid, function (err, data) {
+        db.find(query.getuserData(mobno)).then(async (respData) => {// db.get(uid, async (err, data) =>{
+            var data=respData.docs[0];
             if (data) {
                 data.symptom.push(payload);
+                var updatedField = await weightageService.updatePatientScore(null, data);
+                    if (updatedField != null) {
+                        data.healthstatus = updatedField.healthstatus;
+                        data.currentCovidScore = updatedField.currentCovidScore;
+                    }
                 db.insert(data, function (err, data) {
                     if (data) {
                         response["success"] = true;
@@ -79,38 +86,49 @@ module.exports = {
 
     // deleting a document
     deleteDocument: function (callback) {
-        console.log("Deleting document 'mydoc'");
         // supply the id and revision to be deleted
         db.destroy(doc._id, doc._rev, function (err, data) {
-            console.log('Error:', err);
-            console.log('Data:', data);
+         //   console.log('Error:', err);
+           // console.log('Data:', data);
             callback(err, data);
         });
     },
 
     // deleting the database document
     deleteDatabase: function (callback) {
-        console.log("Deleting database '" + dbname + "'");
+       // console.log("Deleting database '" + dbname + "'");
         cloudant.db.destroy(dbname, function (err, data) {
             callback(err, data);
         });
     },
     selectQuery: function () {
         db.find(query.searchQuery()).then((result) => {
-            console.log(result.docs);
+            //console.log(result.docs);
         });;
     },
-    findsymptom: function (id,callback) {
+    findsymptom: function (id, callback) {
         db.find(query.getSymptom(id)).then((result) => {
-            if(result.docs.length > 0 && result.docs[0].symptom.length>0)
-            {
-               callback(true);
+            if (result.docs.length > 0 && result.docs[0].symptom.length > 0) {
+                callback(true);
             }
-            else{
+            else {
                 callback(false);
             }
-        }).catch(err=>{
-         callback(err);
-    });;
+        }).catch(err => {
+            callback(err);
+        });
+    },
+    getUserName: (id, callback) => {
+        db.find(query.getSignIn(id)).then((result) => {
+            console.log("Response for get User Name function =>"+ JSON.stringify(result));
+            if (result.docs.length > 0) {
+                callback("",{ "sucess": "true", userName: result.docs[0].name, userId: result.docs[0]._id });
+            }
+            else {
+                callback("",{ "sucess": "false"});
+            }
+        }).catch(err => {
+            callback(err,{ "sucess": "false"});
+        });
     }
 };

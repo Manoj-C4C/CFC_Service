@@ -18,7 +18,7 @@ router.post('/findsymptom', function (req, res, next) {
 //    PatientController.add(req, res, next);
 // });
 
-router.get('/:patientid', PatientController.readPatient);
+//router.get('/:patientid', PatientController.readPatient);
 // router.get('/getquerydata', function (req, res,next) {
 //     console.log("method calling");
 //     PatientController.executeQuery();
