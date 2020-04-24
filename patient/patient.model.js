@@ -66,6 +66,8 @@ module.exports = {
                     if (updatedField != null) {
                         data.healthstatus = updatedField.healthstatus;
                         data.currentCovidScore = updatedField.currentCovidScore;
+                        if(updatedField.qurantine != undefined)
+                          data.qurantine = updatedField.qurantine;
                     }
                 db.insert(data, function (err, data) {
                     if (data) {
