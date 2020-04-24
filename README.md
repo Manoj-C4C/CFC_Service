@@ -4,8 +4,6 @@ Health Assistant - Details about submission name - TBD
 
 ## Contents
 1. [Getting started](#getting-started)
-1. [Live demo](#live-demo)
-1. [Built with](#built-with)
 1. [Contributing](#contributing)
 1. [Versioning](#versioning)
 1. [Authors](#authors)
@@ -34,7 +32,7 @@ https://cloud.ibm.com/docs/cli?topic=cloud-cli-install-ibmcloud-cli
 
 ### Installation
 
-#### Installing CFC_API : Patient API
+#### Installing Patient Backend service:
 Below Steps will be used to create your own image repository, build the Docker image and finally deploy on the IBM Cloud Kubernetes cluster
 
 ##### step 1- Creating image repository on IBM Cloud 
