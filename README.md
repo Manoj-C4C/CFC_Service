@@ -1,3 +1,6 @@
+# Altran-CFC-Covid-19
+Altran Entry for Call for Code - Covid-19 Challenge
+
 # Submission name
 
 Health Assistant - Details about submission name - TBD
@@ -9,8 +12,8 @@ Health Assistant - Details about submission name - TBD
 1. [The architecture](#the-architecture)
 1. [Long description](#long-description)
 1. [Project roadmap](#project-roadmap)
+1. [UX Design](#ux-design)
 1. [Getting started](#getting-started)
-1. [Running the tests](#running-the-tests)
 1. [Live demo](#live-demo)
 1. [Built with](#built-with)
 1. [Contributing](#contributing)
@@ -25,11 +28,11 @@ TBD
 
 ### What's the problem?
 
-In these unprecedented times, health care systems are getting overwhelmed with patients having Covid-19 symptoms all over the world. It is becoming very difficult for doctors to handle every patient with these symptoms. 
+TBD
 
 ### How can technology help?
 
-We are trying to bring technology to the rescue of health care systems all over the world so that they are able to cope up with the massive inflow of patients with Covid-19 symptoms. 
+TBD
 
 ### The idea
 
@@ -51,105 +54,158 @@ TBD
 
 TBD
 
+## Ux Design
+
+TBD
+
 ## Getting started
 
-To get started take clone of following repository to your local machine.
-git@github.com:hackaltran/CFC_API.git
+To get started, there are approaches that you can use health assitant solution - 
+
+- Build and Compile the End to End solution
+- Use the existing deployed insfrasture 
+
+## Build and Compile the Solution
+
+| Plugin                     | README |
+| ------                     | ------ |
+| Patient App                | [README.md](https://github.com/hackaltran/Altran-CFC-Covid-19/blob/master/README.md) |
+| Patient Backend Service    | [README.md](https://github.com/hackaltran/Altran-CFC-Covid-19/blob/master/README.md) |
+| Moniroting Dashboard       | [README.md](https://github.com/hackaltran/Altran-CFC-Covid-19/blob/master/README.md) |
+| Monitoring Backend Service | [README.md](https://github.com/hackaltran/Altran-CFC-Covid-19/blob/master/README.md) |
+
+```
+   git clone git@github.com:hackaltran/Altran-CFC-Covid-19.git
+```
+After clone verify the following folders :
+
+- CFC_API : Patient API
+- CFC_UI : Patient UI
+- CFC_Monitoring : Monitor chatbot API
+- CFC_MonitoringUI : Monitor chatbot UI
 
 ### Prerequisites
 
-Before installing the application, you ensure following tools should be installed in your machine.
-```bash
-node v10 or above
-docker v19 or above
-IBM cli
-IBM cloud account
+Before installing the application, you ensure following tools should be installed in your machine. The URL's to download and install these tools have also been mentioned.  
+
+- Node.js v10 or above
+```
+https://nodejs.org/en/
+```
+- Docker v19 or above
+```
+https://www.docker.com/products/docker-desktop
+```
+- IBM Cloud command line interface
+```
+https://cloud.ibm.com/docs/cli?topic=cloud-cli-install-ibmcloud-cli
 ```
 
-### Installing
-###### Creating Docker image 
 
- The following command will be use to deploy the application on IBM Cloud kubernetes cluster
+### Installation
 
- Before executing the command, you need to create a registry on IBM Cloud.
- ```
-   we are using cfc_altran as registry.
-   Below are the steps to create registry (https://cloud.ibm.com/docs/Registry?topic=registry-getting-started#gs_registry_cli_install)
-   Log in to IBM Cloud => ibmcloud login
-   Add a namespace to create your own image repository => ibmcloud cr namespace-add cfc_altran
-   To ensure that your namespace is created => ibmcloud cr namespace-list
+#### Installing CFC_API : Patient API
+Below Steps will be used to create your own image repository, build the Docker image and finally deploy on the IBM Cloud Kubernetes cluster
 
-  ```
-  > You have to run these command alongside dockerfile.
-```bash
+##### step 1- Creating image repository on IBM Cloud 
 
-# Building new ubuntu image using Dockerfile to deploy CFC_API code on it
+Before building the Docker image, first you need to add a namespace to create your own image repository on IBM Cloud.
+
+Below commands are using 'cfc_altran' as registry. Note that it needs to be unique.
+
+- Log in to IBM Cloud 
+```
+ibmcloud login
+```
+- Upon successful login, add a namespace to create your own image repository
+```
+ibmcloud cr namespace-add cfc_altran
+```
+- To ensure that your namespace is created, look for registry name in the command output 
+```
+ibmcloud cr namespace-list
+```
+##### Step 2- Creating Docker image
+
+You have to run these command alongside Dockerfile.
+
+- Building new ubuntu image using Dockerfile to deploy CFC_API code on it
+```
 docker build -t cfc-nodejs-app .
-
-# Tag docker image to upload to IBM Cloud Kubernetes cluster
+```
+- Tag docker image to upload to IBM Cloud Kubernetes cluster
+```
 docker tag cfc-nodejs-app us.icr.io/cfc_altran/cfc-nodejs-repo
-
-# Try IBM cloud login to be on safe side
+```
+- [_Optional step_] Try IBM Cloud Registry login to validate user and region 
+```
 ibmcloud cr login
-
-# To be on safe side, update region also
+```
+- [_Optional step_] Update region to ensure that image is uploaded under correct region
+```
 ibmcloud cr region-set us-south
-
-# Push docker image to IBM Cloud Kubernetes cluster
+```
+- Push docker image to IBM Cloud Registry
+```
 docker push us.icr.io/cfc_altran/cfc-nodejs-repo
-
-# After push, list image present on IBM Cloud to confirm
+```
+- List image present on IBM Cloud Registry and ensure respective image is there in command output
+```
 ibmcloud cr image-list
-
 ```
-###### Kubernets installation
+##### Step 3- Kubernetes installation
 
-- Below commands need to be executed manually on IBM Cloud via browser based 'Kubernetes Terminal'
-- Go to Clusters on IBM Cloud -> click the cluster -> 'Add-ons' -> click 'Install' for 'Kubernetes Terminal'
- - This will start installation and when button label change to 'Terminal', click on it to open terminal'
- ```bash
+__NOTE__: Below commands need to be executed manually on IBM Cloud via browser based 'Kubernetes Terminal'
 
-# Start
+`Go to Clusters on IBM Cloud -> click the cluster -> click 'Add-ons' -> click 'Install' for 'Kubernetes Terminal'`
+
+This will start installation and when button label change to 'Terminal', click on it to open terminal'
+
+- [In case of redeployment] Delete the respective deployment & service if already exists
+```
+kubectl delete deployment cfcaltran2020
+kubectl delete service cfcaltran2020-service
+```
+- Start/Create the deployment
+```
 kubectl run cfcaltran2020 --image=us.icr.io/cfc_altran/cfc-nodejs-repo:latest
-
-# Expose your application to the internet
+```
+- Expose your application to the internet
+```
 kubectl expose deployment/cfcaltran2020 --type=NodePort --port=8080 --name=cfcaltran2020-service --target-port=8080
-
-# Get the NodePort and use it for all requests.
-# Application will listen on NodePort only and not on port specified while starting the NodeJS application.
+```
+- Get the NodePort and use it for all requests. Application will listen on NodePort only and not on port specified while starting the NodeJS application.
+```
 kubectl describe service cfcaltran2020-service
-
-# Get the Worker node Public IP on which request will be hit
+```
+- Get the Worker node Public IP on which request will be hit
+```
 ibmcloud ks workers cfc_nodejs_cluster
+```
+- Below is example GET API call
+```
+curl -kX GET https://<ip>:<port>/api/patient/<patientIP>
+```
+__NOTE__: The public url must be secure having HTTPS protocol.
 
-# Below is example GET API call
-# curl -kX GET http://<ip>:<port>/api/patient/<patientIP>
- ```
+#### Installing CFC_UI : Patient UI
 
+```
+android installation
+```
+#### Installing CFC_Monitoring : Monitor chatbot API
 
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why, if you were using something like `mocha` for instnance
-
-```bash
-npm install mocha --save-dev
-vi test/test.js
-./node_modules/mocha/bin/mocha
+```
+TBD
 ```
 
-### And coding style tests
 
-Explain what these tests test and why, if you chose `eslint` for example
+#### Installing CFC_MonitoringUI : Monitor chatbot UI
 
-```bash
-npm install eslint --save-dev
-npx eslint --init
-npx eslint sample-file.js
 ```
+TBD
+```
+
 
 ## Live demo
 
@@ -169,8 +225,11 @@ TBD
 
 ## Authors
 
-Deepak Bammi
-Manoj Gupta
+- Deepak Goyal
+- Hitesh Choudhary
+- Manoj Gupta
+- Chandresh Tiwari
+- Yogesh Sharma
 
 ## License
 
