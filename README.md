@@ -1,15 +1,3 @@
-# Submission name
-
-Health Assistant - Details about submission name - TBD
-
-## Contents
-1. [Getting started](#getting-started)
-1. [Contributing](#contributing)
-1. [Versioning](#versioning)
-1. [Authors](#authors)
-1. [License](#license)
-1. [Acknowledgments](#acknowledgments)
-
 ## Getting started
 
 ### Prerequisites
@@ -116,21 +104,4 @@ curl -kX GET https://<ip>:<port>/api/patient/<patientIP>
 ```
 __NOTE__: The public url must be secure having HTTPS protocol.
 
-## Contributing
-
-TBD
-
-## Versioning
-
-## Authors
-
-Manoj Gupta
-
-## License
-
-TBD
-
-## Acknowledgments
-
-TBD
  
