@@ -1,18 +1,8 @@
-# Altran-CFC-Covid-19
-Altran Entry for Call for Code - Covid-19 Challenge
-
 # Submission name
 
 Health Assistant - Details about submission name - TBD
 
 ## Contents
-
-1. [Short description](#short-description)
-1. [Demo video](#demo-video)
-1. [The architecture](#the-architecture)
-1. [Long description](#long-description)
-1. [Project roadmap](#project-roadmap)
-1. [UX Design](#ux-design)
 1. [Getting started](#getting-started)
 1. [Live demo](#live-demo)
 1. [Built with](#built-with)
@@ -22,71 +12,11 @@ Health Assistant - Details about submission name - TBD
 1. [License](#license)
 1. [Acknowledgments](#acknowledgments)
 
-## Short description
-
-TBD
-
-### What's the problem?
-
-TBD
-
-### How can technology help?
-
-TBD
-
-### The idea
-
-TBD
-
-## Demo video
-
-TBD
-
-## The architecture
-
-TBD
-
-## Long description
-
-TBD
-
-## Project roadmap
-
-TBD
-
-## Ux Design
-
-TBD
-
 ## Getting started
-
-To get started, there are approaches that you can use health assitant solution - 
-
-- Build and Compile the End to End solution
-- Use the existing deployed insfrasture 
-
-## Build and Compile the Solution
-
-| Plugin                     | README |
-| ------                     | ------ |
-| Patient App                | [README.md](https://github.com/hackaltran/Altran-CFC-Covid-19/blob/master/README.md) |
-| Patient Backend Service    | [README.md](https://github.com/hackaltran/Altran-CFC-Covid-19/blob/master/README.md) |
-| Moniroting Dashboard       | [README.md](https://github.com/hackaltran/Altran-CFC-Covid-19/blob/master/README.md) |
-| Monitoring Backend Service | [README.md](https://github.com/hackaltran/Altran-CFC-Covid-19/blob/master/README.md) |
-
-```
-   git clone git@github.com:hackaltran/Altran-CFC-Covid-19.git
-```
-After clone verify the following folders :
-
-- CFC_API : Patient API
-- CFC_UI : Patient UI
-- CFC_Monitoring : Monitor chatbot API
-- CFC_MonitoringUI : Monitor chatbot UI
 
 ### Prerequisites
 
-Before installing the application, you ensure following tools should be installed in your machine. The URL's to download and install these tools have also been mentioned.  
+Before starting the installation, ensure user have the IBM Cloud account to create Kubernetes Service. Also following tools have been installed on user local system. 
 
 - Node.js v10 or above
 ```
@@ -188,35 +118,6 @@ curl -kX GET https://<ip>:<port>/api/patient/<patientIP>
 ```
 __NOTE__: The public url must be secure having HTTPS protocol.
 
-#### Installing CFC_UI : Patient UI
-
-```
-android installation
-```
-#### Installing CFC_Monitoring : Monitor chatbot API
-
-```
-TBD
-```
-
-
-#### Installing CFC_MonitoringUI : Monitor chatbot UI
-
-```
-TBD
-```
-
-
-## Live demo
-
-TBD
-
-## Built with
-
-NodeJS
-ReactJS
-React-Native
-
 ## Contributing
 
 TBD
@@ -225,11 +126,7 @@ TBD
 
 ## Authors
 
-- Deepak Goyal
-- Hitesh Choudhary
-- Manoj Gupta
-- Chandresh Tiwari
-- Yogesh Sharma
+Manoj Gupta
 
 ## License
 
