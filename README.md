@@ -54,11 +54,7 @@ TBD
 ## Getting started
 
 To get started take clone of following repository to your local machine.
-
-- https://github.com/hackaltran/CFC_API
-- https://github.com/hackaltran/CFC_UI
-- https://github.com/hackaltran/CFC_Monitoring
-- https://github.com/hackaltran/CFC_MonitoringUI
+git@github.com:hackaltran/CFC_API.git
 
 ### Prerequisites
 
@@ -71,7 +67,7 @@ IBM cloud account
 ```
 
 ### Installing
-###### creating Docker image 
+###### Creating Docker image 
 
  The following command will be use to deploy the application on IBM Cloud kubernetes cluster
 
@@ -83,7 +79,6 @@ IBM cloud account
    Add a namespace to create your own image repository => ibmcloud cr namespace-add cfc_altran
    To ensure that your namespace is created => ibmcloud cr namespace-list
 
- 
   ```
   > You have to run these command alongside dockerfile.
 ```bash
