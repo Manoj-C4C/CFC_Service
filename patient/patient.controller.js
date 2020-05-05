@@ -23,10 +23,7 @@ module.exports = {
         });
     },
     covidpatient: (request, response, next) => {
-        // patient.readDocument(function (err, data) {
-       // console.log(JSON.stringify(request.body))
-        //response.send(JSON.stringify(request.body));
-        // });
+      
     },
     addsymptom: (request, response, next) => {
         var payload = request.body;
@@ -48,7 +45,6 @@ module.exports = {
     },
 
     findUser: (request, response) => {
-       // console.log("controller calling");
         patient.selectQuery();
         response.send({ "success": true });
     },

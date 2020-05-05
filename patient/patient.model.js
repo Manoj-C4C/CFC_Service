@@ -1,12 +1,8 @@
 
 
-// Copyright © 2015, 2017 IBM Corp. All rights reserved.
+// Copyright © 2020 altran Corp. All rights reserved.
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
+
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,18 +10,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 'use strict';
-
-
-// load the Cloudant library
 var async = require('async');
 var Cloudant = require('@cloudant/cloudant');
 const utility = require("../utility/utility");
 const weightageService = require("../service/service");
 const query = require("../db_query/query");
 //var cloudant = Cloudant({url: process.env.CLOUDANT_URL});
-const cloudant = new Cloudant({ url: 'https://633f24c3-b128-4545-845b-6a7171ec5174-bluemix.cloudantnosqldb.appdomain.cloud', plugins: { iamauth: { iamApiKey: 'Fnm4HIcpY38re_vih-x0Wc4QJilVDtJFyjftv4B0iavp' } } });
+//const cloudant = new Cloudant({ url: 'https://633f24c3-b128-4545-845b-6a7171ec5174-bluemix.cloudantnosqldb.appdomain.cloud', plugins: { iamauth: { iamApiKey: 'Fnm4HIcpY38re_vih-x0Wc4QJilVDtJFyjftv4B0iavp' } } });
+const cloudant = new Cloudant({ url: 'https://8380f2b2-3885-4d08-b0e2-1ab967504d36-bluemix.cloudantnosqldb.appdomain.cloud', plugins: { iamauth: { iamApiKey: 'kXM-uYt4dOwdIMVZa0GXliG_gHY87ImCYExvStPFT5GF' } } });
 var db = cloudant.db.use('c4c_db');;
 var doc = null;
+
 
 module.exports = {
     // create a document
@@ -58,7 +53,7 @@ module.exports = {
         payload["timestamp"] = Date.now();
         delete payload["user_id"];
         // make a change to the document, using the copy we kept from reading it back
-        db.find(query.getuserData(mobno)).then(async (respData) => {// db.get(uid, async (err, data) =>{
+        db.find(query.getuserData(mobno)).then(async (respData) => { // db.get(uid, async (err, data) =>{
             var data=respData.docs[0];
             if (data) {
                 data.symptom.push(payload);
@@ -90,22 +85,18 @@ module.exports = {
     deleteDocument: function (callback) {
         // supply the id and revision to be deleted
         db.destroy(doc._id, doc._rev, function (err, data) {
-         //   console.log('Error:', err);
-           // console.log('Data:', data);
             callback(err, data);
         });
     },
 
     // deleting the database document
     deleteDatabase: function (callback) {
-       // console.log("Deleting database '" + dbname + "'");
         cloudant.db.destroy(dbname, function (err, data) {
             callback(err, data);
         });
     },
     selectQuery: function () {
         db.find(query.searchQuery()).then((result) => {
-            //console.log(result.docs);
         });;
     },
     findsymptom: function (id, callback) {
