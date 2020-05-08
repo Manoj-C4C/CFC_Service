@@ -20,7 +20,8 @@ const query = require("../db_query/query");
 const cloudant = new Cloudant({ url: 'https://8380f2b2-3885-4d08-b0e2-1ab967504d36-bluemix.cloudantnosqldb.appdomain.cloud', plugins: { iamauth: { iamApiKey: 'kXM-uYt4dOwdIMVZa0GXliG_gHY87ImCYExvStPFT5GF' } } });
 var db = cloudant.db.use('c4c_db');;
 var doc = null;
-
+const SocketService = require('../service/socketService')
+const SocketInstance = new SocketService();
 
 module.exports = {
     // create a document
@@ -54,16 +55,24 @@ module.exports = {
         delete payload["user_id"];
         // make a change to the document, using the copy we kept from reading it back
         db.find(query.getuserData(mobno)).then(async (respData) => { // db.get(uid, async (err, data) =>{
-            var data=respData.docs[0];
+            var data = respData.docs[0];
             if (data) {
                 data.symptom.push(payload);
                 var updatedField = await weightageService.updatePatientScore(null, data);
-                    if (updatedField != null) {
-                        data.healthstatus = updatedField.healthstatus;
-                        data.currentCovidScore = updatedField.currentCovidScore;
-                        if(updatedField.qurantine != undefined)
-                          data.qurantine = updatedField.qurantine;
+                if (updatedField != null) {
+                    data.healthstatus = updatedField.healthstatus;
+                    data.currentCovidScore = updatedField.currentCovidScore;
+                    if (updatedField.qurantine != undefined)
+                        data.qurantine = updatedField.qurantine;
+                    if (data.healthstatus == 'positive') {
+                        SocketInstance.sendMessageToClient(
+                            {
+                                type: 'Health_Status',
+                                data: data.symptom
+                            })
                     }
+
+                }
                 db.insert(data, function (err, data) {
                     if (data) {
                         response["success"] = true;
@@ -113,15 +122,15 @@ module.exports = {
     },
     getUserName: (id, callback) => {
         db.find(query.getSignIn(id)).then((result) => {
-            console.log("Response for get User Name function =>"+ JSON.stringify(result));
+            console.log("Response for get User Name function =>" + JSON.stringify(result));
             if (result.docs.length > 0) {
-                callback("",{ "sucess": "true", userName: result.docs[0].name, userId: result.docs[0]._id });
+                callback("", { "sucess": "true", userName: result.docs[0].name, userId: result.docs[0]._id });
             }
             else {
-                callback("",{ "sucess": "false"});
+                callback("", { "sucess": "false" });
             }
         }).catch(err => {
-            callback(err,{ "sucess": "false"});
+            callback(err, { "sucess": "false" });
         });
     }
 };
