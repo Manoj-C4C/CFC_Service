@@ -20,8 +20,8 @@ const query = require("../db_query/query");
 const cloudant = new Cloudant({ url: 'https://8380f2b2-3885-4d08-b0e2-1ab967504d36-bluemix.cloudantnosqldb.appdomain.cloud', plugins: { iamauth: { iamApiKey: 'kXM-uYt4dOwdIMVZa0GXliG_gHY87ImCYExvStPFT5GF' } } });
 var db = cloudant.db.use('c4c_db');;
 var doc = null;
-const SocketService = require('../service/socketService')
-const SocketInstance = new SocketService();
+const SocketService = require('../service/socketService');
+
 
 module.exports = {
     // create a document
@@ -65,11 +65,10 @@ module.exports = {
                     if (updatedField.qurantine != undefined)
                         data.qurantine = updatedField.qurantine;
                     if (data.healthstatus == 'positive') {
-                        SocketInstance.sendMessageToClient(
-                            {
-                                type: 'Health_Status',
-                                data: data.symptom
-                            })
+                        SocketService.sendMessageToClient({
+                            type: 'Health_Status',
+                            data: data.symptom
+                        })
                     }
 
                 }

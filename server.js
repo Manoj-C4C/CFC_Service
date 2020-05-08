@@ -2,12 +2,11 @@ const http = require('http');
 
 const app = require('./app');
 
-const SocketService = require('./service/socketService')
-var server = http.createServer(app);
+const SocketService = require('./service/socketService');
 
-const socket = new SocketService();
+const server = http.createServer(app);
 
-socket.createWebSocketServer({
+SocketService.createWebSocketServer({
   options: {
     httpServer: server,
     autoAcceptConnections: false
