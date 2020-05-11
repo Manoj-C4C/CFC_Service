@@ -21,7 +21,7 @@ const cloudant = new Cloudant({ url: 'https://8380f2b2-3885-4d08-b0e2-1ab967504d
 var db = cloudant.db.use('c4c_db');;
 var doc = null;
 const SocketService = require('../service/socketService');
-
+const SOCKET_EVENTS_CONSTANTS = require('../constants/websocket.constants');
 
 module.exports = {
     // create a document
@@ -65,8 +65,8 @@ module.exports = {
                     if (updatedField.qurantine != undefined)
                         data.qurantine = updatedField.qurantine;
                     if (data.healthstatus == 'positive') {
-                        SocketService.sendMessageToClient({
-                            type: 'Health_Status',
+                        SocketService.sendMessageToClient(data.userId, {
+                            type: SOCKET_EVENTS_CONSTANTS.HEALTH_STATUS,
                             data: data.symptom
                         })
                     }
