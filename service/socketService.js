@@ -41,6 +41,7 @@ class SocketService {
     }
 
     onConnectionClose = () => {
+        console.log('Socket Closed');
         let connectionsArray = [];
         let keysArray = [];
         connectionsArray = Array.from(SocketService.connections.values());

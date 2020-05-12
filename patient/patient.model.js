@@ -65,7 +65,7 @@ module.exports = {
                     if (updatedField.qurantine != undefined)
                         data.qurantine = updatedField.qurantine;
                     if (data.healthstatus == 'positive') {
-                        SocketService.sendMessageToClient(data.userId, {
+                        SocketService.sendMessageToClient(data._id, {
                             type: SOCKET_EVENTS_CONSTANTS.HEALTH_STATUS,
                             data: data.symptom
                         })
