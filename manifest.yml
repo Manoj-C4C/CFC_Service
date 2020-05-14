@@ -1,4 +1,5 @@
 applications:
 - name: patient-service
+  command: node server.js
   memory: 1G
   buildpack: sdk-for-nodejs
