@@ -1,0 +1,4 @@
+applications:
+- name: patient-service
+  memory: 1G
+  buildpack: sdk-for-nodejs
