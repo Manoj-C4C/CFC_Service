@@ -67,15 +67,9 @@ var SERVICE = {
                                     : 'positive');
 
         updatedFields.currentCovidScore = score;
-       // console.log(updatedFields.healthstatus);
         if (updatedFields.healthstatus != 'none') {
             updatedFields.qurantine = { isQurantine: true, started: Date.now(), end: Date.now() + 1.21e+9 }
         }
-        // else {
-        //     updatedFields.qurantine = { isQurantine: false, started: 0, end: 0 }
-        // }
-
-        // console.log(patient.id, JSON.stringify(weightage));
         return updatedFields;
     },
 
